@@ -42,13 +42,26 @@ public class MyFirstMicroServiceApplication {
 	}
 
 	//update data
-	//@PutMapping("/updateActor")
-	//public @ResponseBody String updateActor(@RequestParam String firstName, String lastName ){
-		//Actor updateActor = new Actor()
+	@PutMapping("/updateActor")
+	public @ResponseBody String updateActor(@RequestParam int actor_id, String first_name, String last_name ){
+		if (actorRepository.existsById(actor_id)) {
+			Actor actor = actorRepository.findById(actor_id).get();
+			actor.setFirst_name(first_name);
+			actor.setLast_name(last_name);
+			actorRepository.save(actor);
+			return "Actor" + actor_id + "detail(s) is updated.";
+		}
+		else
+		{
+			return "Actor" + actor_id + "not found in the system.";
+		}
 
-	//}
-
-
+	}
 	//delete
+	@DeleteMapping("/deleteActor")
+	public @ResponseBody String removeActor (@RequestParam int actor_id){
+		actorRepository.deleteById(actor_id);
+		return saved;
+	}
 
 }

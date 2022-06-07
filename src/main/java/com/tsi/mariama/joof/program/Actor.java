@@ -8,7 +8,7 @@ public class Actor {
 
     //Attributes
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int actor_id;
     String first_name;
     String last_name;
@@ -26,6 +26,18 @@ public class Actor {
 
     public void setActor_id(int actor_id) {
         this.actor_id = actor_id;
+    }
+
+    public int getActor_id() {
+        return actor_id;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
     }
 
     public void setFirst_name(String first_name) {
