@@ -25,6 +25,10 @@ public class MyFirstMicroServiceApplication {
 			this.actorRepository = actorRepository;
 	}
 
+	//*****************************
+		//ACTOR//
+	//****************************/
+
 	//Get data from actor table
 	@GetMapping("/allActors")
 	public @ResponseBody
@@ -60,8 +64,30 @@ public class MyFirstMicroServiceApplication {
 	//delete
 	@DeleteMapping("/deleteActor")
 	public @ResponseBody String removeActor (@RequestParam int actor_id){
-		actorRepository.deleteById(actor_id);
-		return saved;
+		if (actorRepository.existsById(actor_id)) {
+			actorRepository.deleteById(actor_id);
+			return saved;
+		}
+		else {
+			return "Actor not found";
+		}
+
 	}
+
+	//*****************************
+	//CUSTOMER//
+	//****************************/
+
+	//*****************************
+	//FILM//
+	//****************************/
+
+	//*****************************
+	//FILM CATEGORY//
+	//****************************/
+
+	//*****************************
+	//PAYMENT//
+	//****************************/
 
 }

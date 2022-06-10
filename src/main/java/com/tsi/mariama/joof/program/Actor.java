@@ -12,6 +12,7 @@ public class Actor {
     int actor_id;
     String first_name;
     String last_name;
+
     //Constructors
     public Actor(String first_name, String last_name){
         this.first_name = first_name;
