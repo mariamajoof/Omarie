@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 
 public class AddActorStepDef {
 
-    private ActorRepository actorRepository;
-    MyFirstMicroServiceApplication app = new MyFirstMicroServiceApplication(actorRepository);
+//    private ActorRepository actorRepository;
+//    MyFirstMicroServiceApplication app = new MyFirstMicroServiceApplication(actorRepository);
 
     // dummy Actor Class
     //setting values for when and given

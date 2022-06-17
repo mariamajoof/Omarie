@@ -9,7 +9,6 @@ public class Actor {
     //Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int actor_id;
     String first_name;
     String last_name;
 
@@ -19,41 +18,25 @@ public class Actor {
         this.last_name = last_name;
     }
 
+    //calling the constructor method
     public Actor(){}
 
-    public int getActorID() {
-        return actor_id;
-    }
+    //getting the getters and setters
 
-    public void setActor_id(int actor_id) {
-        this.actor_id = actor_id;
-    }
-
-    public int getActor_id() {
-        return actor_id;
-    }
 
     public String getFirst_name() {
         return first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
     }
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
     }
 
+    public String getLast_name() {
+        return last_name;
+    }
+
     public void setLast_name(String last_name) {
         this.last_name = last_name;
-    }
-
-    public String getFirstName() {
-        return first_name;
-    }
-
-    public String getLastName() {
-        return last_name;
     }
 }
