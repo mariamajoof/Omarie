@@ -1,31 +1,30 @@
 package com.tsi.mariama.joof.program;
 
-import DummyCode.PaymentRepository;
-import DummyCode.RentalRepository;
+import DummyCode.Customer;
 
-import org.springframework.beans.factory.annotation.Autowired;//tells spring to connect the thing to the databse
+import DummyCode.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;//Tells spring to connect the thing to the database
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;// this start the web server
+import org.springframework.boot.autoconfigure.SpringBootApplication;// This start the web server
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
 
 import java.util.List;
 
 
 @CrossOrigin(origins = "*") //front end can be able to access the api. needed for receiving request via api
-@SpringBootApplication
+@SpringBootApplication// this start the spring framework
 @RestController // Handles GET, POST, DELETE, PUT requests
 @RequestMapping("/home")//base url
 
 
-
+// this class is related to the database
 public class MyFirstMicroServiceApplication {
+	//connect this to the database
 	@Autowired
 	private  FilmActorRepository filmActorRepository;
 	@Autowired
 	private ActorRepository actorRepository;
-	@Autowired
-	private CustomerRepository customerRepository;
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 	@Autowired
@@ -44,20 +43,21 @@ public class MyFirstMicroServiceApplication {
 	private String languageErrorMsg = "Language does not exist";
 
 
-// this is where the program start. this tell spring boot where to run thr program
+// This is where the program starts. This tell spring boot where to run the program
 	public static void main(String[] args) {
 		SpringApplication.run(MyFirstMicroServiceApplication.class, args);
 	}
 
+	//set up the constructor- tell it what it needs
 	public MyFirstMicroServiceApplication(ActorRepository actorRepository,
-										  CustomerRepository customerRepository,
+
 										  LanguageRepository languageRepository,
 										  CategoryRepository categoryRepository,
 										  FilmRepository filmRepository,
 										  FilmActorRepository filmActorRepository,
 										  FilmCategoryRepository filmCategoryRepository){
 			this.actorRepository = actorRepository;
-			this.customerRepository = customerRepository;
+
 			this.categoryRepository = categoryRepository;
 			this.languageRepository = languageRepository;
 			this.filmCategoryRepository = filmCategoryRepository;
@@ -72,17 +72,20 @@ public class MyFirstMicroServiceApplication {
 	//Get data from actor table
 
 	//Http request that is saying get all actors
-	@GetMapping("/allActors")//maap the function to the url
-
-	public @ResponseBody
+	@GetMapping("/allActors")//mapped the function to the url
+	public @ResponseBody// This tells the url what to response
 	//this function will return a list of actor, going through the list of actors
 	Iterable<Actor> getAllActors() {
 		return actorRepository.findAll();
 	}
 
 	// add actor to the table
-	@PostMapping("/addActor")
+	//
+	// @PostMapping:maps HTTP POST requests onto specific handler methods
+	@PostMapping("/addActor")// handle the HTTP POST requests matched with given URI expression
 	//making function that takes param given by user
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody String addActor(@RequestParam String first_name, @RequestParam String last_name ){
 
 		Actor addActor = new Actor(first_name,last_name);
@@ -91,7 +94,9 @@ public class MyFirstMicroServiceApplication {
 	}
 
 	//update data
-	@PutMapping("/updateActor")
+	@PutMapping("/updateActor")//Annotation for mapping HTTP PUT requests onto specific handler methods.
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody String updateActor(@RequestParam int actor_id, @RequestParam String first_name, @RequestParam String last_name ){
 		if (actorRepository.existsById(actor_id)) {
 			Actor actor = actorRepository.findById(actor_id).get();
@@ -106,8 +111,14 @@ public class MyFirstMicroServiceApplication {
 		}
 
 	}
+
+	//find actor by name
+
 	//delete
-	@DeleteMapping("/deleteActor")
+
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	@DeleteMapping("/deleteActor")//maps HTTP DELETE requests onto specific handler methods.
 	public @ResponseBody String removeActor (@RequestParam int actor_id){
 		if (actorRepository.existsById(actor_id)) {
 			actorRepository.deleteById(actor_id);
@@ -119,65 +130,23 @@ public class MyFirstMicroServiceApplication {
 
 	}
 
-	//*****************************
-	//CUSTOMER//
-	//****************************/
-	@GetMapping("/getAllCustomers")
-	public @ResponseBody
-	Iterable<Customer> getAllCustomers() {
-		return customerRepository.findAll();
-	}
 
-	// Add data to the table
-	@PostMapping("/addCustomer")
-	public @ResponseBody String addCustomer(@RequestParam String first_name, @RequestParam String last_name, @RequestParam String email){
-
-		Customer addCustomer = new Customer( first_name,last_name, email );
-		customerRepository.save(addCustomer);
-		return saved;
-	}
-
-	//update data
-	@PutMapping("/updateCustomer")
-	public @ResponseBody String updateCustomer(@RequestParam int customer_id, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email){
-		if (customerRepository.existsById(customer_id)) {
-			Customer customer = customerRepository.findById(customer_id).get();
-			customer.setFirst_name(first_name);
-			customer.setLast_name(last_name);
-			customer.setEmail(email);
-
-			customerRepository.save(customer);
-			return "Customer" + customer_id + "detail(s) is updated.";
-		}
-		else
-		{
-			return "Customer" + customer_id + "not found in the system.";
-		}
-
-	}
-	//delete
-	@DeleteMapping("/deleteCustomer")
-	public @ResponseBody String removeCustomer (@RequestParam int customer_id) {
-		if (customerRepository.existsById(customer_id)) {
-			customerRepository.deleteById(customer_id);
-			return "Removed customer";
-		} else {
-			return "Customer not found";
-		}
-	}
 	//*****************************
 	//LANGUAGE//
 	//****************************/
 
 	//Get all languages
-	@GetMapping("/allLanguages")
+	@GetMapping("/allLanguages")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody
 	Iterable<Language>getAllLanguages(){
 
 		return languageRepository.findAll();
 	}
 	// Get language name by id.
-	@GetMapping("language/id")
+	@GetMapping("language/id")//mapped the function to the url
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody String getLanguageById (@RequestParam int language_id, @RequestParam String name){
 		if (languageRepository.existsById(language_id)){
 			Language language =  languageRepository.findById(language_id).get();
@@ -189,7 +158,9 @@ public class MyFirstMicroServiceApplication {
 		}
 	}
 	//get language by name
-	@GetMapping("/language/name")
+	@GetMapping("/language/name")//mapped the function to the url
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody List<Language> getLanguageName(@RequestParam String name){
 		return languageRepository.findByName(name);
 	}
@@ -198,7 +169,8 @@ public class MyFirstMicroServiceApplication {
 	//FILM//
 	//****************************/
 	//Get all films
-	@GetMapping("/allFilm")
+	@GetMapping("/allFilm")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody
 	Iterable<Film>getAllFilm(){
 
@@ -206,7 +178,10 @@ public class MyFirstMicroServiceApplication {
 	}
 
 	//Get film by ID
-	@GetMapping("/film/id")
+	@GetMapping("/film/id")//mapped the function to the url
+	//This function will return a film id by checking if the Id existed
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody int getFilmById (@RequestParam int film_id){
 			languageRepository.existsById(film_id);
 			Film film =  filmRepository.findById(film_id).get();
@@ -214,42 +189,71 @@ public class MyFirstMicroServiceApplication {
 			return film_id;
 	}
 	//Search by  keywords
-	@GetMapping("/film/WordSearch")
-	public @ResponseBody List<Film> getFilmByWordSearch(@RequestParam String wordSearch){
-		return filmRepository.findByDescriptionLikeOrTitleLike("%" + wordSearch + "%", "%" + wordSearch + "%");
+	//getting title and description
+	@GetMapping("/film/WordSearch/{word}")//mapped the function to the url
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	// This function will return the film title and description.
+	public @ResponseBody List<Film> getFilmByWordSearch(@PathVariable String word){
+		//using % to match sql syntax
+		return filmRepository.findByDescriptionLikeOrTitleLike("%" + word + "%", "%" + word + "%");
 
 	}
 	// list of film and category id in integer
+
 	public  int getCategoryId( String name){
 		return categoryRepository.findByName(name).getCategoryId();
 	}
+
 	//link category and film table
+	/////Display all the films within a category///
+
 	//get film by category
-	@GetMapping("/films/category")
+	@GetMapping("/films/category")//mapped the function to the url
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	//this function return all the film category Ids within a category, when you type in category name
 	public @ResponseBody Iterable<FilmCategory> getFilmIdByCategory(@RequestParam String name){
 		return filmCategoryRepository.findByCategoryId(categoryRepository.findByName(name).getCategoryId());
 	}
-	//get film bt name
-	@GetMapping("/film/name")
-	public @ResponseBody String getFilmByIdToName(@RequestParam int film_id){
-		return filmRepository.findById(film_id).get().getTitle();
+	//get film by name
+	@GetMapping("/film/{film_id}")//mapped the function to the url
+	// This function return a film title, when you type in the film id
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	public @ResponseBody Film getFilmByIdToName(@PathVariable int film_id){
+		return filmRepository.findById(film_id).get();
 	}
-	//getting title and description
-	@GetMapping("/category/name")
+
+	@GetMapping("/category/name")//mapped the function to the url
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	//This function display all the films details within the category
 	public @ResponseBody Iterable<Film> getCategoryName(@RequestParam String name) {
 		Category filmsCat = categoryRepository.findByName(name);
 		return filmsCat.films;
 	}
 
+	// GET FILM BASED ON ACTOR SEARCH
 
-	//Search by the film year by
-//	@GetMapping("/film/releaseYear")
-//	public @ResponseBody List<Film> getFilmReleaseYear (@RequestParam Year release_year){
-//		return filmRepository.findByReleaseYear(release_year);
+	//get film actor
+	//@GetMapping("/film/actor")//mapped the function to the url
+	//This function display all the films details within the category
+//	public @ResponseBody Iterable<Film> getFilmByActorSearch(@RequestParam String name) {
+//		Actor filmActor = filmRepository.findAll();
+//		return filmActor.films;
+//	}
+	//@GetMapping("/actor/film")
+//	public @ResponseBody String getFilmByActorSearch(@RequestParam String name ){
+//		Actor filmActor = filmRepository.findAll(name);
+//		return filmActor.films;
+//
 //	}
 
 	//Delete film by Id
-	@DeleteMapping("/deleteFilm")
+	@DeleteMapping("/deleteFilm")//maps HTTP DELETE requests onto specific handler methods.
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody String removeFilm (@RequestParam int film_id) {
 		if (filmRepository.existsById(film_id)) {
 			filmRepository.deleteById(film_id);
@@ -260,7 +264,9 @@ public class MyFirstMicroServiceApplication {
 	}
 
 	//Add Film
-	@PostMapping("/addFilm")
+	@PostMapping("/addFilm")// handle the HTTP POST requests matched with given URI expression
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody String addFilm(@RequestParam String title, @RequestParam String description, @RequestParam int length, @RequestParam int language_id){
 
 		Film addFilm = new Film(title,description,length,language_id);
@@ -274,7 +280,8 @@ public class MyFirstMicroServiceApplication {
 	//****************************/
 
 	//Get all film category
-	@GetMapping("/film/category")
+	@GetMapping("/film/category")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody
 	Iterable<FilmCategory>getAllFilmCategory(){
 		return filmCategoryRepository.findAll();
@@ -286,28 +293,24 @@ public class MyFirstMicroServiceApplication {
 
 	// Get all film actors
 
-	@GetMapping("/allFilmActors")
+	@GetMapping("/allFilmActors")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody
 	Iterable<FilmActor>getAllFilmActor(){
 		return filmActorRepository.findAll();
 	}
-	// GET FILM BASED TO ACTOR SEARCH
-	//@GetMapping("/actor/film")
-//	public @ResponseBody String getFilmByActorSearch(@RequestParam String name ){
-//		Actor filmActor = filmRepository.findAll(name);
-//		return filmActor.films;
-//
-//	}
 
 	//*****************************
 	//CATEGORY//
 	//****************************/
 
 	// Get all category
-	@GetMapping("/allCategory")
+	@GetMapping("/allCategory")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody
 	Iterable<Category>getAllCategory(){
 		return categoryRepository.findAll();
 	}
 
 }
+

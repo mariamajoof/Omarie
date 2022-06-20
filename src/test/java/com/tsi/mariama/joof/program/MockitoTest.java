@@ -1,7 +1,7 @@
 package com.tsi.mariama.joof.program;
 
 
-import org.hibernate.sql.Update;
+import DummyCode.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,15 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.annotation.Id;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.yaml.snakeyaml.events.Event;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -31,8 +22,7 @@ public class MockitoTest {
     private ActorRepository actorRepository;
     @Mock
     private CategoryRepository categoryRepository;
-    @Mock
-    CustomerRepository customerRepository;
+
     @Mock
     FilmRepository filmRepository;
     @Mock
@@ -46,7 +36,6 @@ public class MockitoTest {
     void setUp(){
         actorRepository= mock(ActorRepository.class);
         categoryRepository = mock(CategoryRepository.class);
-        customerRepository = mock(CustomerRepository.class);
         languageRepository = mock(LanguageRepository.class);
         filmCategoryRepository = mock(FilmCategoryRepository.class);
         filmActorRepository = mock(FilmActorRepository.class);
@@ -54,8 +43,7 @@ public class MockitoTest {
 
 
         //FIX INSTRUCTION REPO
-        myFirstMicroServiceApplication = new MyFirstMicroServiceApplication(actorRepository, customerRepository,
-                languageRepository,categoryRepository,filmRepository,filmActorRepository,filmCategoryRepository);
+        myFirstMicroServiceApplication = new MyFirstMicroServiceApplication(actorRepository,languageRepository,categoryRepository,filmRepository,filmActorRepository,filmCategoryRepository);
     }
 
     @Test
@@ -92,12 +80,7 @@ public class MockitoTest {
         verify(filmCategoryRepository).findAll();
     }
 
-    @Test
-    public void getAllCustomers() {
 
-        myFirstMicroServiceApplication.getAllCustomers();
-        verify(customerRepository).findAll();
-    }
 
 
     @Test
@@ -118,23 +101,23 @@ public class MockitoTest {
         Assertions.assertEquals(expected,Actual,"Actor detail(s) is not saved into the database");
     }
 
-    @Test
-    public void addCustomer(){
-
-        Customer savedCustomer = new Customer("first_name","last_name","email");
-
-        String expected = "Saved";
-
-        String Actual = myFirstMicroServiceApplication.addCustomer(savedCustomer.getFirst_name(),savedCustomer.getLast_name(),savedCustomer.getEmail());
-
-        ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
-
-        verify(customerRepository).save(customerArgumentCaptor.capture());
-
-        customerArgumentCaptor.getValue();
-
-        Assertions.assertEquals(expected,Actual,"Customer detail(s) is not saved into the database");
-    }
+  //  @Test
+//    public void addCustomer(){
+//
+//        Customer savedCustomer = new Customer("first_name","last_name","email", "store_id","address_id","actor_id");
+//
+//        String expected = "Saved";
+//
+//        String Actual = myFirstMicroServiceApplication.addCustomer(savedCustomer.getFirst_name(),savedCustomer.getLast_name(),savedCustomer.getEmail(),savedStore_id.get);
+//
+//        ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
+//
+//        verify(customerRepository).save(customerArgumentCaptor.capture());
+//
+//        customerArgumentCaptor.getValue();
+//
+//        Assertions.assertEquals(expected,Actual,"Customer detail(s) is not saved into the database");
+//    }
 
     //Update
 

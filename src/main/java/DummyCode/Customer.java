@@ -1,7 +1,8 @@
-package com.tsi.mariama.joof.program;
+package DummyCode;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.*;
 
@@ -22,11 +23,13 @@ public class Customer {
     String email;
 
 
+
     // constructor
     public Customer(   String first_name, String last_name, String email){
         this.first_name = first_name;
         this.last_name = last_name;
-       this.email = email;
+        this.email = email;
+
     }
 
     public Customer(){}
@@ -41,7 +44,6 @@ public class Customer {
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
     }
-
 
     public String getFirst_name() {
         return first_name;

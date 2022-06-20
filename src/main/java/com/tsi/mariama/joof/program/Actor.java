@@ -1,6 +1,8 @@
 package com.tsi.mariama.joof.program;
 
 import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Table(name="actor")
 
@@ -11,6 +13,15 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     String first_name;
     String last_name;
+
+    //gets the film with a category
+    @ManyToMany
+    @JoinTable(name = "film_actor", joinColumns = {
+            @JoinColumn(name = "actor_id", nullable = false)
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "film_id", nullable = false)
+    })
+    Set<Film> films;
 
     //Constructors
     public Actor(String first_name, String last_name){

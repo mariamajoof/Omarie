@@ -26,23 +26,32 @@ import java.net.MalformedURLException;
 import java.net.URL;
 public class SeleniumTest {
     private WebDriver driver;
-    private Map<String, Object> vars;
+    //private Map<String, Object> vars;
     JavascriptExecutor js;
+
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\joofw\\OneDrive\\Documents\\selenium\\chromedriver_win32\\chromedriver.exe");
+        // this set the driver pad
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\joofw\\OneDrive\\Documents\\TSI\\selenium\\chromedriver_win32\\chromedriver.exe");
+    // this set the new driver.
         driver = new ChromeDriver();
+        //JavascriptExecutor is a medium that enables the WebDriver to interact with HTML elements within the browser
         js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
+       // vars = new HashMap<String, Object>();
     }
+
+    //After the test is run, it will call this method to quit the driver
     @After
     public void tearDown() {
         driver.quit();
     }
     @Test
     public void testAllActor() {
-        driver.get("http://127.0.0.1:5500/actorname.html");
+        //Get this url
+        driver.get("http://localhost:3000/actorname");
+        //set the screen size to this size
         driver.manage().window().setSize(new Dimension(640, 672));
+        //Find the element in the screen and click on it
         driver.findElement(By.id("clickToDisplay")).click();
     }
 }
