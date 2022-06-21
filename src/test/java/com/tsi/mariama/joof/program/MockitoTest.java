@@ -1,7 +1,7 @@
 package com.tsi.mariama.joof.program;
 
 
-import DummyCode.CustomerRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -33,6 +35,7 @@ public class MockitoTest {
     LanguageRepository languageRepository;
 
     @BeforeEach
+    //Its makes a mock repo
     void setUp(){
         actorRepository= mock(ActorRepository.class);
         categoryRepository = mock(CategoryRepository.class);
@@ -42,14 +45,16 @@ public class MockitoTest {
         filmRepository = mock(FilmRepository.class);
 
 
-        //FIX INSTRUCTION REPO
+        //creating an instance of the microservice
         myFirstMicroServiceApplication = new MyFirstMicroServiceApplication(actorRepository,languageRepository,categoryRepository,filmRepository,filmActorRepository,filmCategoryRepository);
     }
 
     @Test
     public void getAllActors(){
-
+        //this will check if the find all  method is call
         myFirstMicroServiceApplication.getAllActors();
+
+        //check find all  function is run
         verify(actorRepository).findAll();
     }
     @Test
@@ -80,26 +85,39 @@ public class MockitoTest {
         verify(filmCategoryRepository).findAll();
     }
 
-
-
+    @Test
+    public void deleteActor(){
+        myFirstMicroServiceApplication.removeActor(1);
+        verify(actorRepository).deleteById(1);
+    }
 
     @Test
     public void addActor(){
-
-        Actor savedActor = new Actor("first_name","last_name");
-
-        String expected = "Saved";
-
-        String Actual = myFirstMicroServiceApplication.addActor(savedActor.getFirst_name(),savedActor.getLast_name());
-
-        ArgumentCaptor<Actor> actorArgumentCaptor = ArgumentCaptor.forClass(Actor.class);
-
-       verify(actorRepository).save(actorArgumentCaptor.capture());
-
-        actorArgumentCaptor.getValue();
-
-        Assertions.assertEquals(expected,Actual,"Actor detail(s) is not saved into the database");
+        myFirstMicroServiceApplication.addActor("mariama", "Joof");
+        //allows us to see what data is been saved to the database
+        ArgumentCaptor<Actor> captor = ArgumentCaptor.forClass(Actor.class);
+        verify(actorRepository).save(captor.capture());
+        Actor actor = captor.getValue();
+        Assertions.assertEquals("mariama", actor.getFirst_name());
+        Assertions.assertEquals("Joof", actor.getLast_name());
     }
+    @Test
+    public void upDateActor(){
+        Actor actornew = new Actor();
+        actornew.setActor_id(6);
+        // when in the futur my code has id 6 return true. when function is pretending
+        when(actorRepository.existsById(6)).thenReturn(true);
+        //optional function can return  something or nothing
+        when(actorRepository.findById(6)).thenReturn(Optional.of(actornew));
+        myFirstMicroServiceApplication.updateActor(6,"Lily", "Hopkins");
+        ArgumentCaptor<Actor> captor = ArgumentCaptor.forClass(Actor.class);
+        verify(actorRepository).save(captor.capture());
+        Actor actor = captor.getValue();
+        Assertions.assertEquals(6, actor.getActor_id());
+        Assertions.assertEquals( "Lily", actor.getFirst_name());
+        Assertions.assertEquals("Hopkins", actor.getLast_name());
+    }
+
 
   //  @Test
 //    public void addCustomer(){

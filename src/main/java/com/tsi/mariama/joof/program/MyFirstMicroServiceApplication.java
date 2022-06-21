@@ -1,8 +1,6 @@
 package com.tsi.mariama.joof.program;
 
-import DummyCode.Customer;
 
-import DummyCode.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;//Tells spring to connect the thing to the database
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;// This start the web server
@@ -73,6 +71,7 @@ public class MyFirstMicroServiceApplication {
 
 	//Http request that is saying get all actors
 	@GetMapping("/allActors")//mapped the function to the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	public @ResponseBody// This tells the url what to response
 	//this function will return a list of actor, going through the list of actors
 	Iterable<Actor> getAllActors() {
@@ -178,19 +177,20 @@ public class MyFirstMicroServiceApplication {
 	}
 
 	//Get film by ID
-	@GetMapping("/film/id")//mapped the function to the url
-	//This function will return a film id by checking if the Id existed
-	//@RequestParam: This is used to extract the query param from the url
-	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
-	public @ResponseBody int getFilmById (@RequestParam int film_id){
-			languageRepository.existsById(film_id);
-			Film film =  filmRepository.findById(film_id).get();
-			film.getFilm_id();
-			return film_id;
-	}
+//	@GetMapping("/film/id")//mapped the function to the url
+//	//This function will return a film id by checking if the Id existed
+//	//@RequestParam: This is used to extract the query param from the url
+//	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+//	public @ResponseBody int getFilmById (@RequestParam int film_id){
+//			languageRepository.existsById(film_id);
+//			Film film =  filmRepository.findById(film_id).get();
+//			film.getFilm_id();
+//			return film_id;
+//	}
 	//Search by  keywords
 	//getting title and description
 	@GetMapping("/film/WordSearch/{word}")//mapped the function to the url
+	//@PathVariable: this extract the value of the template variable and assign the value to the method
 	//@RequestParam: This is used to extract the query param from the url
 	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	// This function will return the film title and description.
@@ -225,11 +225,11 @@ public class MyFirstMicroServiceApplication {
 		return filmRepository.findById(film_id).get();
 	}
 
-	@GetMapping("/category/name")//mapped the function to the url
+	@GetMapping("/category/{name}")//mapped the function to the url
 	//@RequestParam: This is used to extract the query param from the url
 	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	//This function display all the films details within the category
-	public @ResponseBody Iterable<Film> getCategoryName(@RequestParam String name) {
+	public @ResponseBody Iterable<Film> getCategoryName(@PathVariable String name) {
 		Category filmsCat = categoryRepository.findByName(name);
 		return filmsCat.films;
 	}
