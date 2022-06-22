@@ -146,10 +146,10 @@ public class MyFirstMicroServiceApplication {
 	@GetMapping("language/id")//mapped the function to the url
 	//@RequestParam: This is used to extract the query param from the url
 	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
-	public @ResponseBody String getLanguageById (@RequestParam int language_id, @RequestParam String name){
+	public @ResponseBody String getLanguageById (@RequestParam Integer language_id){
 		if (languageRepository.existsById(language_id)){
 			Language language =  languageRepository.findById(language_id).get();
-			language.getName();
+			String name = language.getName();
 			return name;
 		}
 		else {
@@ -176,17 +176,17 @@ public class MyFirstMicroServiceApplication {
 		return filmRepository.findAll();
 	}
 
-	//Get film by ID
-//	@GetMapping("/film/id")//mapped the function to the url
-//	//This function will return a film id by checking if the Id existed
-//	//@RequestParam: This is used to extract the query param from the url
-//	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
-//	public @ResponseBody int getFilmById (@RequestParam int film_id){
-//			languageRepository.existsById(film_id);
-//			Film film =  filmRepository.findById(film_id).get();
-//			film.getFilm_id();
-//			return film_id;
-//	}
+	//Get film by ID// function not working
+	@GetMapping("/film/id")//mapped the function to the url
+	//This function will return a film id by checking if the Id existed
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	public @ResponseBody int getFilmById (@RequestParam int film_id){
+			languageRepository.existsById(film_id);
+			Film film =  filmRepository.findById(film_id).get();
+			film.getFilm_id();
+			return film_id;
+	}
 	//Search by  keywords
 	//getting title and description
 	@GetMapping("/film/WordSearch/{word}")//mapped the function to the url
@@ -201,9 +201,9 @@ public class MyFirstMicroServiceApplication {
 	}
 	// list of film and category id in integer
 
-	public  int getCategoryId( String name){
-		return categoryRepository.findByName(name).getCategoryId();
-	}
+//	public  int getCategoryId(){
+//	return categoryRepository.findByName().getCategoryId();
+//	}
 
 	//link category and film table
 	/////Display all the films within a category///
