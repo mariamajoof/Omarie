@@ -7,6 +7,8 @@ import org.junit.After;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
+
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -21,13 +23,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 public class SeleniumTest {
     private WebDriver driver;
     //private Map<String, Object> vars;
-    JavascriptExecutor js;
+    //JavascriptExecutor js;
 
     @Before
     public void setUp() {
@@ -36,7 +40,7 @@ public class SeleniumTest {
     // this set the new driver.
         driver = new ChromeDriver();
         //JavascriptExecutor is a medium that enables the WebDriver to interact with HTML elements within the browser
-        js = (JavascriptExecutor) driver;
+        //js = (JavascriptExecutor) driver;
        // vars = new HashMap<String, Object>();
     }
 
@@ -49,10 +53,30 @@ public class SeleniumTest {
     public void testAllActor() {
         //Get this url
         driver.get("http://localhost:3000/actorname");
-        //set the screen size to this size
-        driver.manage().window().setSize(new Dimension(640, 672));
         //Find the element in the screen and click on it
         driver.findElement(By.id("clickToDisplay")).click();
+    }
+    @Test
+    public  void searchKeyword() {
+
+        //getting input from user
+        driver.get("http://localhost:3000/keyword");
+        //finding the element call searchKeyword
+        //ASSIGN STRING EXPECTED TO THE TEXT ELEMENT
+        String expected = driver.findElement(By.id("keywordDisplay")).getText();
+
+        driver.findElement(By.id("searchKeyword")).click();
+        driver.findElement(By.id("searchKeyword")).sendKeys("shark");
+        driver.findElement(By.id("keySearch")).click();
+        //sett
+        // waite until keyword display is not equal to expected or 30 secs has pass
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.invisibilityOfElementWithText(By.id("keywordDisplay"), expected));
+
+        String actual = driver.findElement(By.id("keywordDisplay")).getText();
+        Assertions.assertNotEquals(expected, actual);
+
+
     }
 }
 

@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -126,10 +128,6 @@ public class MockitoTest {
         myFirstMicroServiceApplication.getAllLanguages();
         verify(languageRepository).findAll();
     }
-    @Test
-    public void getLanguageName(){
-
-    }
 
     @Test
     public void getLanguageById() {
@@ -143,6 +141,12 @@ public class MockitoTest {
         String actual = myFirstMicroServiceApplication.getLanguageById(dummyLanguage.language_id);
 
         Assertions.assertEquals(expected, actual, "Values are not the same");
+    }
+    @Test
+    public void getLanguageByIdFalseStatement(){
+
+        String actual =myFirstMicroServiceApplication.getLanguageById(89476);
+        Assertions.assertEquals("Language does not exist", actual);
     }
 
     ////////FILM//////////
@@ -160,6 +164,13 @@ public class MockitoTest {
     }
     @Test
     public void getFilmById(){
+        Film dummyFilm = new Film();
+        dummyFilm.setFilm_id(10);
+       when(filmRepository.findById(10)).thenReturn(Optional.of(dummyFilm));
+
+        int expected = dummyFilm.getFilm_id();
+        int actual = myFirstMicroServiceApplication.getFilmById(dummyFilm.getFilm_id());
+        Assertions.assertEquals(expected, actual, "Values are not the same");
 
     }
 

@@ -1,5 +1,7 @@
 package com.tsi.mariama.joof.program;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ public class Actor {
     }, inverseJoinColumns = {
             @JoinColumn(name = "film_id", nullable = false)
     })
+    @JsonIgnore
     Set<Film> films;
 
     //Constructors
