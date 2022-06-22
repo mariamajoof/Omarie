@@ -181,6 +181,18 @@ public class MockitoTest {
 
     }
 
+    @Test
+    public void testAddFilm(){
+        myFirstMicroServiceApplication.addFilm("The Book","The book des", 3,2);
+        //allows us to see what data is been saved to the database
+        ArgumentCaptor<Film> captor = ArgumentCaptor.forClass(Film.class);
+        verify(filmRepository).save(captor.capture());
+        Film film = captor.getValue();
+        Assertions.assertEquals("The Book", film.getTitle());
+        Assertions.assertEquals("The book des", film.getDescription());
+        Assertions.assertEquals(3, film.getLength());
+        Assertions.assertEquals(2, film.getLanguage_id());
+    }
 
     @Test
     void getFilmByKeyword() {
