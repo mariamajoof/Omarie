@@ -102,11 +102,11 @@ public class MyFirstMicroServiceApplication {
 			actor.setFirst_name(first_name);
 			actor.setLast_name(last_name);
 			actorRepository.save(actor);
-			return "Actor" + actor_id + "detail(s) is updated.";
+			return "Actor "  + actor_id +  " detail(s) is updated.";
 		}
 		else
 		{
-			return "Actor" + actor_id + "not found in the system.";
+			return "Actor " + actor_id + " not found in the system.";
 		}
 
 	}
@@ -251,17 +251,17 @@ public class MyFirstMicroServiceApplication {
 //	}
 
 	//Delete film by Id
-//	@DeleteMapping("/deleteFilm")//maps HTTP DELETE requests onto specific handler methods.
-//	//@RequestParam: This is used to extract the query param from the url
-//	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
-//	public @ResponseBody String removeFilm (@RequestParam int film_id) {
-//		if (filmRepository.existsById(film_id)) {
-//			filmRepository.deleteById(film_id);
-//			return "Removed film";
-//		} else {
-//			return "Film not found";
-//		}
-//	}
+	@DeleteMapping("/deleteFilm")//maps HTTP DELETE requests onto specific handler methods.
+	//@RequestParam: This is used to extract the query param from the url
+	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
+	public @ResponseBody String removeFilm (@RequestParam int film_id) {
+		if (filmRepository.existsById(film_id)) {
+			filmRepository.deleteById(film_id);
+			return "Removed film";
+		} else {
+			return "Film not found";
+		}
+	}
 
 	//Add Film
 	@PostMapping("/addFilm")// handle the HTTP POST requests matched with given URI expression

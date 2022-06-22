@@ -36,9 +36,9 @@ public class MockitoTest {
     LanguageRepository languageRepository;
 
     @BeforeEach
-    //Its makes a mock repo
-    void setUp(){
-        actorRepository= mock(ActorRepository.class);
+        //Its makes a mock repo
+    void setUp() {
+        actorRepository = mock(ActorRepository.class);
         categoryRepository = mock(CategoryRepository.class);
         languageRepository = mock(LanguageRepository.class);
         filmCategoryRepository = mock(FilmCategoryRepository.class);
@@ -47,30 +47,39 @@ public class MockitoTest {
 
 
         //creating an instance of the microservice
-        myFirstMicroServiceApplication = new MyFirstMicroServiceApplication(actorRepository,languageRepository,categoryRepository,filmRepository,filmActorRepository,filmCategoryRepository);
+        myFirstMicroServiceApplication = new MyFirstMicroServiceApplication(actorRepository, languageRepository, categoryRepository, filmRepository, filmActorRepository, filmCategoryRepository);
     }
 
-   ////////Actors///////
+    ////////Actors///////
 
     // get all actor
     @Test
-    public void getAllActors(){
+    public void getAllActors() {
         //this will check if the find all  method is call
         myFirstMicroServiceApplication.getAllActors();
 
         //check find all  function is run
         verify(actorRepository).findAll();
     }
+
     /// delete actor
     @Test
-    public void deleteActor(){
+    public void deleteActor() {
         when(actorRepository.existsById(1)).thenReturn(true);
         myFirstMicroServiceApplication.removeActor(1);
         verify(actorRepository).deleteById(1);
     }
+
+    @Test
+    public void deleteActorFalseStatement(){
+
+        String actual =myFirstMicroServiceApplication.removeActor(1987);
+        Assertions.assertEquals("Actor not found", actual);
+    }
+
     // add actor
     @Test
-    public void addActor(){
+    public void addActor() {
         myFirstMicroServiceApplication.addActor("mariama", "Joof");
         //allows us to see what data is been saved to the database
         ArgumentCaptor<Actor> captor = ArgumentCaptor.forClass(Actor.class);
@@ -79,9 +88,12 @@ public class MockitoTest {
         Assertions.assertEquals("mariama", actor.getFirst_name());
         Assertions.assertEquals("Joof", actor.getLast_name());
     }
+
     //Update actor
+
+    //Update actor if its true
     @Test
-    public void upDateActor(){
+    public void upDateActor() {
         Actor actornew = new Actor();
         actornew.setActor_id(6);
         // when in the futur my code has id 6 return true. when function is pretending
@@ -89,13 +101,21 @@ public class MockitoTest {
         //optional function can return  something or nothing
         when(actorRepository.findById(6)).thenReturn(Optional.of(actornew));
 
-        myFirstMicroServiceApplication.updateActor(6,"Lily", "Hopkins");
+        myFirstMicroServiceApplication.updateActor(6, "Lily", "Hopkins");
         ArgumentCaptor<Actor> captor = ArgumentCaptor.forClass(Actor.class);
         verify(actorRepository).save(captor.capture());
         Actor actor = captor.getValue();
         Assertions.assertEquals(6, actor.getActor_id());
-        Assertions.assertEquals( "Lily", actor.getFirst_name());
+        Assertions.assertEquals("Lily", actor.getFirst_name());
         Assertions.assertEquals("Hopkins", actor.getLast_name());
+    }
+
+    //Testing the false statement update actor
+    @Test
+    public void updateActorFalseStatement(){
+
+        String actual =myFirstMicroServiceApplication.updateActor(1987, "Marie", "Leo");
+        Assertions.assertEquals("Actor 1987 not found in the system.", actual);
     }
     ////////////////LANGUAGE///////////////
 
@@ -107,7 +127,12 @@ public class MockitoTest {
         verify(languageRepository).findAll();
     }
     @Test
-    public void getLanguageById(){
+    public void getLanguageName(){
+
+    }
+
+    @Test
+    public void getLanguageById() {
 
         Language dummyLanguage = new Language();
         dummyLanguage.setLanguage_id(7);
@@ -123,7 +148,7 @@ public class MockitoTest {
     ////////FILM//////////
 
     @Test
-    public void getFilmByIdToName(){
+    public void getFilmByIdToName() {
         Film dummyFilm = new Film();
         dummyFilm.setFilm_id(8);
         when(filmRepository.findById(dummyFilm.getFilm_id())).thenReturn(Optional.of(dummyFilm));
@@ -132,7 +157,12 @@ public class MockitoTest {
         Film actual = myFirstMicroServiceApplication.getFilmByIdToName(dummyFilm.getFilm_id());
         Assertions.assertEquals(expected, actual, "Values are not the same");
 
-     }
+    }
+    @Test
+    public void getFilmById(){
+
+    }
+
     @Test
     public void getAllFilmActor() {
         myFirstMicroServiceApplication.getAllFilmActor();
@@ -142,23 +172,17 @@ public class MockitoTest {
 
 
     @Test
-    void getFilmByKeyword(){
+    void getFilmByKeyword() {
         String word = "Start";
         myFirstMicroServiceApplication.getFilmByWordSearch(word);
-        verify(filmRepository).findByDescriptionLikeOrTitleLike("%"+ word + "%", "%" + word + "%");
+        verify(filmRepository).findByDescriptionLikeOrTitleLike("%" + word + "%", "%" + word + "%");
     }
 
     ////////CATEGORY//////////
 
-//    @Test
-//    public void getFilmIdByCategory(){
-//        Category dummyCat = new Category();
-//        dummyCat.setCategoryId(10);
-//        when(categoryRepository.existsById(10)).thenReturn(true);
-//        when(categoryRepository.findById(10)).thenReturn(Optional.of(dummyCat));
-
-//
-//    }
+    @Test
+    public void getFilmIdByCategory(){
+ }
 
 
     @Test
@@ -168,7 +192,7 @@ public class MockitoTest {
         verify(categoryRepository).findAll();
     }
 
-//    @Test
+    //    @Test
 //    public void getCategoryId(){
 //        myFirstMicroServiceApplication.getCategoryId();
 //        verify(categoryRepository).findByName();
@@ -181,47 +205,6 @@ public class MockitoTest {
         verify(filmCategoryRepository).findAll();
     }
 
-
-
-
-
-  //  @Test
-//    public void addCustomer(){
-//
-//        Customer savedCustomer = new Customer("first_name","last_name","email", "store_id","address_id","actor_id");
-//
-//        String expected = "Saved";
-//
-//        String Actual = myFirstMicroServiceApplication.addCustomer(savedCustomer.getFirst_name(),savedCustomer.getLast_name(),savedCustomer.getEmail(),savedStore_id.get);
-//
-//        ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
-//
-//        verify(customerRepository).save(customerArgumentCaptor.capture());
-//
-//        customerArgumentCaptor.getValue();
-//
-//        Assertions.assertEquals(expected,Actual,"Customer detail(s) is not saved into the database");
-//    }
-
-    //Update
-
-    //Delete
-    //MAKEUP AND ID - HOW DO I makeup and Id
-//    @Test
-//    public void removeActor(){
-//        Actor actor = new Actor("Jake", "Jakey");
-//        actor.setActor_id(1);
-//        when(actorRepository.findById(1)).thenReturn(Optional.of(actor));
-//        String expected = "Actor Deleted";
-//        String actual = myFirstMicroServiceApplication.removeActor(1);
-//        ArgumentCaptor<Integer> actorArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
-//        verify(actorRepository).deleteById(actorArgumentCaptor.capture());
-//        actorArgumentCaptor.getValue();
-//        Assertions.assertEquals(expected, actual, "Actor not deleted");
-//
-//
-//
-//   }
 
 }
 
