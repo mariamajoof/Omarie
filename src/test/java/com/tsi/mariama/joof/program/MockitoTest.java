@@ -64,6 +64,7 @@ public class MockitoTest {
     /// delete actor
     @Test
     public void deleteActor(){
+        when(actorRepository.existsById(1)).thenReturn(true);
         myFirstMicroServiceApplication.removeActor(1);
         verify(actorRepository).deleteById(1);
     }
@@ -138,11 +139,7 @@ public class MockitoTest {
         verify(filmActorRepository).findAll();
 
     }
-    @Test
-    public void removeFilm(){
-        myFirstMicroServiceApplication.getAllFilm();
-        verify(filmCategoryRepository).findAll();
-    }
+
 
     @Test
     void getFilmByKeyword(){
