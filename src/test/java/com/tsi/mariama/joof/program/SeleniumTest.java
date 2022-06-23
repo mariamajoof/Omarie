@@ -29,9 +29,9 @@ import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 public class SeleniumTest {
-    private final String homePageUrl= "http://localhost:3000/";
     private WebDriver driver;
-
+    //private Map<String, Object> vars;
+    //JavascriptExecutor js;
 
     @Before
     public void setUp() {
@@ -53,19 +53,8 @@ public class SeleniumTest {
     public void testAllActor() {
         //Get this url
         driver.get("http://localhost:3000/actorname");
-
-        String expected = driver.findElement(By.id("actorNameList")).getText();
         //Find the element in the screen and click on it
         driver.findElement(By.id("clickToDisplay")).click();
-        driver.findElement(By.id("clickToDisplay")).isDisplayed();
-
-        // waite until keyword display is not equal to expected or 30 secs has pass
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.invisibilityOfElementWithText(By.id("actorNameList"), expected));
-
-        String actual = driver.findElement(By.id("actorNameList")).getText();
-        Assertions.assertNotEquals(expected, actual);
-
     }
     @Test
     public  void searchKeyword() {
@@ -86,107 +75,7 @@ public class SeleniumTest {
 
         String actual = driver.findElement(By.id("keywordDisplay")).getText();
         Assertions.assertNotEquals(expected, actual);
-    }
-    @Test
-    public void filmTitleSearch(){
-        driver.get("http://localhost:3000/title");
-        String expected = driver.findElement(By.id("keywordTitle")).getText();
 
-        driver.findElement(By.id("searchTitle")).click();
-        driver.findElement(By.id("searchTitle")).sendKeys("7");
-        driver.findElement(By.id("keySearchTitle")).click();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.invisibilityOfElementWithText(By.id("keywordTitle"), expected));
-
-        String actual = driver.findElement(By.id("keywordTitle")).getText();
-        Assertions.assertNotEquals(expected, actual);
-
-    }
-    @Test
-    public void filmCategorySearch(){
-        driver.get("http://localhost:3000/category");
-        String expected = driver.findElement(By.id("catListDisplay")).getText();
-
-        driver.findElement(By.id("categoryMenu")).click();
-        driver.findElement(By.id("categoryMenu")).sendKeys("Children");
-        driver.findElement(By.id("catBtn")).click();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.invisibilityOfElementWithText(By.id("catListDisplay"), expected));
-
-        String actual = driver.findElement(By.id("catListDisplay")).getText();
-        Assertions.assertNotEquals(expected, actual);
-    }
-
-
-//////////Home page Nav//////////////////////////////
-    //title page
-    @Test
-    public void titlePageNav(){
-
-        driver.get("http://localhost:3000/");
-        driver.findElement(By.id("navTitle")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl + "title","Invalid Page");
-    }
-    //category page
-    @Test
-    public void categoryPageNav(){
-
-        driver.get("http://localhost:3000/");
-        driver.findElement(By.id("navCategory")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl + "category","Invalid Page");
-    }
-    //actor page
-    @Test
-    public void actorNamePageNav(){
-
-        driver.get("http://localhost:3000/");
-        driver.findElement(By.id("navActorName")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl + "actorname","Invalid Page");
-    }
-    //keyword
-    @Test
-    public void keywordPageNav(){
-
-        driver.get("http://localhost:3000/");
-        driver.findElement(By.id("navKeyword")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl + "keyword","Invalid Page");
-    }
-    @Test
-    public void backButtonTitle(){
-        driver.get("http://localhost:3000/title");
-        driver.findElement(By.className("backButton")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl ,"Invalid Page");
-
-    }
-    @Test
-    public void backButtonCat(){
-        driver.get("http://localhost:3000/category");
-        driver.findElement(By.className("backButton")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl ,"Invalid Page");
-
-    }
-    @Test
-    public void backButtonActor(){
-        driver.get("http://localhost:3000/actorname");
-        driver.findElement(By.className("backButton")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl ,"Invalid Page");
-
-    }
-    @Test
-    public void backButtonKeyWord(){
-        driver.get("http://localhost:3000/keyword");
-        driver.findElement(By.className("backButton")).click();
-        String currentUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(currentUrl, homePageUrl ,"Invalid Page");
 
     }
 }

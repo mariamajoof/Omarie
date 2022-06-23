@@ -203,6 +203,10 @@ public class MockitoTest {
 
     ////////CATEGORY//////////
 
+    @Test
+    public void getFilmIdByCategory(){
+ }
+
 
     @Test
     public void getAllCategory() {
@@ -211,12 +215,19 @@ public class MockitoTest {
         verify(categoryRepository).findAll();
     }
 
+    //    @Test
+//    public void getCategoryId(){
+//        myFirstMicroServiceApplication.getCategoryId();
+//        verify(categoryRepository).findByName();
+//
+//    }
     @Test
     public void getAllFilmCategory() {
 
         myFirstMicroServiceApplication.getAllFilmCategory();
         verify(filmCategoryRepository).findAll();
     }
+
 
 }
 
