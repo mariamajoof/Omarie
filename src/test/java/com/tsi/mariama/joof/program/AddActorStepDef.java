@@ -24,7 +24,6 @@ public class AddActorStepDef {
     Actor dummyActor;
     String firsName, lastName;
 
-
         private MyFirstMicroServiceApplication myFirstMicroServiceApplication;
         //Mocking the actor repository
         @Mock
@@ -69,9 +68,6 @@ public class AddActorStepDef {
         ArgumentCaptor<Actor> captor = ArgumentCaptor.forClass(Actor.class);
         verify(actorRepository).save(captor.capture());
         dummyActor = captor.getValue();
-
-
-
     }
 
     @Then("The system return {string}")
