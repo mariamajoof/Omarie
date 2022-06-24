@@ -39,9 +39,6 @@ public class SeleniumTest {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\joofw\\OneDrive\\Documents\\TSI\\selenium\\chromedriver_win32\\chromedriver.exe");
     // this set the new driver.
         driver = new ChromeDriver();
-        //JavascriptExecutor is a medium that enables the WebDriver to interact with HTML elements within the browser
-        //js = (JavascriptExecutor) driver;
-       // vars = new HashMap<String, Object>();
     }
 
     //After the test is run, it will call this method to quit the driver
