@@ -2,7 +2,6 @@ package com.tsi.mariama.joof.program;
 
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 
 
@@ -22,8 +21,6 @@ public class Film {
 
     int length;
     int language_id;
-
-//    LocalDate release_year;
 
     //Constructors
 
@@ -81,12 +78,5 @@ public class Film {
     public void setLanguage_id(int language_id) {
         this.language_id = language_id;
     }
-//
-//    public LocalDate getRelease_year() {
-//        return release_year;
-//    }
-//
-//    public void setRelease_year(LocalDate release_year) {
-//        this.release_year = release_year;
-//    }
+
 }

@@ -1,7 +1,5 @@
 package com.tsi.mariama.joof.program;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 
 @Entity

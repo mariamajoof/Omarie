@@ -234,35 +234,6 @@ public class MyFirstMicroServiceApplication {
 		return filmsCat.films;
 	}
 
-	// GET FILM BASED ON ACTOR SEARCH
-
-	//get film actor
-	//@GetMapping("/film/actor")//mapped the function to the url
-	//This function display all the films details within the category
-//	public @ResponseBody Iterable<Film> getFilmByActorSearch(@RequestParam String name) {
-//		Actor filmActor = filmRepository.findAll();
-//		return filmActor.films;
-//	}
-	//@GetMapping("/actor/film")
-//	public @ResponseBody String getFilmByActorSearch(@RequestParam String name ){
-//		Actor filmActor = filmRepository.findAll(name);
-//		return filmActor.films;
-//
-//	}
-
-	//Delete film by Id
-//	@DeleteMapping("/deleteFilm")//maps HTTP DELETE requests onto specific handler methods.
-//	//@RequestParam: This is used to extract the query param from the url
-//	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
-//	public @ResponseBody String removeFilm (@RequestParam int film_id) {
-//		if (filmRepository.existsById(film_id)) {
-//			filmRepository.deleteById(film_id);
-//			return "Removed film";
-//		} else {
-//			return "Film not found";
-//		}
-//	}
-
 	//Add Film
 	@PostMapping("/addFilm")// handle the HTTP POST requests matched with given URI expression
 	//@RequestParam: This is used to extract the query param from the url

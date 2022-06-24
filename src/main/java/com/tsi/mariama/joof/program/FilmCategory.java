@@ -13,7 +13,7 @@ public class FilmCategory {
     @Column (name = "film_id")
     int filmId;
     //fetch the film by establishing the many to one relationship
-   // @ManyToOne @JoinColumn(name = "film_id") Film film;
+
 
     @Column (name = "category_id")
     int categoryId;
@@ -25,10 +25,6 @@ public class FilmCategory {
 
     public FilmCategory(){}
 
-    // Getters
-//    public int getFilmId() {
-//        //return filmId;
-//    }
 
     public void setFilmId(int filmId) {
        // this.filmId = filmId;
