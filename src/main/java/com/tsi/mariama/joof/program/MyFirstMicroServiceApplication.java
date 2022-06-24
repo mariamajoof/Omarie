@@ -111,10 +111,6 @@ public class MyFirstMicroServiceApplication {
 
 	}
 
-	//find actor by name
-
-	//delete
-
 	//@RequestParam: This is used to extract the query param from the url
 	//@ResponseBody: This tells the url what to response. Basically its binds the method return value to the response value.
 	@DeleteMapping("/deleteActor")//maps HTTP DELETE requests onto specific handler methods.
@@ -199,12 +195,6 @@ public class MyFirstMicroServiceApplication {
 		return filmRepository.findByDescriptionLikeOrTitleLike("%" + word + "%", "%" + word + "%");
 
 	}
-	// list of film and category id in integer
-
-//	public  int getCategoryId(){
-//	return categoryRepository.findByName().getCategoryId();
-//	}
-
 	//link category and film table
 	/////Display all the films within a category///
 
