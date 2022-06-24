@@ -19,7 +19,7 @@ public class FilmCategory {
     int categoryId;
     // Constructor
     public FilmCategory(int filmId, int categoryId) {
-        //this.filmId = filmId;
+
         this.categoryId = categoryId;
     }
 
@@ -27,7 +27,7 @@ public class FilmCategory {
 
 
     public void setFilmId(int filmId) {
-       // this.filmId = filmId;
+
     }
 
     public int getCategoryId() {

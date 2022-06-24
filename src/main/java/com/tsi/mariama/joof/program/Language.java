@@ -20,7 +20,6 @@ public class Language {
 
     public Language(){}
 
-    //Getters and setters
 
 
     public Integer getLanguage_id() {
